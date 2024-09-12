@@ -11,7 +11,8 @@ from utils import (
     get_height_of_bbox,
     measure_xy_distance,
     get_center_of_bbox,
-    measure_distance
+    measure_distance,
+    get_closest_distance_to_keypoint
 )
 
 class MiniCourt():
@@ -195,6 +196,7 @@ class MiniCourt():
         output_player_boxes= []
         output_ball_boxes= []
 
+        player_index = 1
         for frame_num, player_bbox in enumerate(player_boxes):
             ball_box = ball_boxes[frame_num][1]
             ball_position = get_center_of_bbox(ball_box)
@@ -219,7 +221,7 @@ class MiniCourt():
                                                                             closest_key_point, 
                                                                             closest_key_point_index, 
                                                                             max_player_height_in_pixels,
-                                                                            player_heights[player_id]
+                                                                            player_heights[player_index]
                                                                             )
                 
                 output_player_bboxes_dict[player_id] = mini_court_player_position
@@ -234,7 +236,7 @@ class MiniCourt():
                                                                             closest_key_point, 
                                                                             closest_key_point_index, 
                                                                             max_player_height_in_pixels,
-                                                                            player_heights[player_id]
+                                                                            player_heights[player_index]
                                                                             )
                     output_ball_boxes.append({1:mini_court_player_position})
             output_player_boxes.append(output_player_bboxes_dict)

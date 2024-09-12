@@ -2,6 +2,7 @@ from ultralytics import YOLO
 import cv2
 import pickle
 import pandas as pd
+import numpy as np
 
 class BallTracker:
     def __init__(self,model_path):
@@ -60,10 +61,9 @@ class BallTracker:
             with open(stub_path, 'rb') as f:
                 ball_detections = pickle.load(f)
             return ball_detections
-
         for frame in frames:
-            player_dict = self.detect_frame(frame)
-            ball_detections.append(player_dict)
+            ball_dict = self.detect_frame(frame)
+            ball_detections.append(ball_dict)
         
         if stub_path is not None:
             with open(stub_path, 'wb') as f:
@@ -76,14 +76,15 @@ class BallTracker:
 
         ball_dict = {}
         for box in results.boxes:
+            #in yolov5_last model, only tennis ball object will be detected. use the first.
             result = box.xyxy.tolist()[0]
             ball_dict[1] = result
-        
+
         return ball_dict
 
-    def draw_bboxes(self,video_frames, player_detections):
+    def draw_bboxes(self,video_frames, ball_detections):
         output_video_frames = []
-        for frame, ball_dict in zip(video_frames, player_detections):
+        for frame, ball_dict in zip(video_frames, ball_detections):
             # Draw Bounding Boxes
             for track_id, bbox in ball_dict.items():
                 x1, y1, x2, y2 = bbox
