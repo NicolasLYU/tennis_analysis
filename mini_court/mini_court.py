@@ -11,8 +11,7 @@ from utils import (
     get_height_of_bbox,
     measure_xy_distance,
     get_center_of_bbox,
-    measure_distance,
-    get_closest_distance_to_keypoint
+    measure_distance
 )
 
 class MiniCourt():

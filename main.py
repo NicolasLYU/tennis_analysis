@@ -19,15 +19,15 @@ def main():
     video_frames = read_video(input_video_path)
 
     # Detect Players and Ball
-    player_tracker = PlayerTracker(model_path='yolov8x')
+    player_tracker = PlayerTracker(model_path='models/yolov8x')
     ball_tracker = BallTracker(model_path='models/yolo5_last.pt')
 
     player_detections = player_tracker.detect_frames(video_frames,
-                                                     read_from_stub=True,
+                                                     read_from_stub=False,
                                                      stub_path="tracker_stubs/player_detections.pkl"
                                                      )
     ball_detections = ball_tracker.detect_frames(video_frames,
-                                                     read_from_stub=True,
+                                                     read_from_stub=False,
                                                      stub_path="tracker_stubs/ball_detections.pkl"
                                                      )
     ball_detections = ball_tracker.interpolate_ball_positions(ball_detections)
